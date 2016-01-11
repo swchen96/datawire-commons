@@ -1,0 +1,34 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = project.parent.group
+version = project.parent.version
+
+ext {
+  assertjVersion = '3.2.0'
+  awsSdkVersion = '1.10.44'
+  commonsLang3 = '3.4'
+  jacksonVersion = '2.6.3'
+  junitVersion = '4.12'
+}
+
+dependencies {
+  compile project(":datawire-config")
+
+  compile "com.amazonaws:aws-java-sdk-ec2:${awsSdkVersion}"
+
+  testCompile(
+      "org.assertj:assertj-core:${assertjVersion}",
+      "junit:junit:${junitVersion}"
+  )
+}
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}

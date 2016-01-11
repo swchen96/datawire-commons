@@ -1,0 +1,16 @@
+rootProject.name = 'datawire-commons'
+
+include('application')
+project(':application').name = 'datawire-application'
+
+//include('application-example')
+//project(':application-example').name = 'datawire-application-example'
+
+include('config')
+project(':config').name = 'datawire-config'
+
+include('config-aws')
+project(':config-aws').name = 'datawire-config-aws'
+
+include('util')
+project(':util').name = 'datawire-util'

@@ -1,0 +1,30 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = project.parent.group
+version = project.parent.version
+
+ext {
+  assertjVersion = '3.2.0'
+  junitVersion = '4.12'
+}
+
+dependencies {
+
+  compile project(":datawire-application")
+
+  testCompile(
+      "org.assertj:assertj-core:${assertjVersion}",
+      "junit:junit:${junitVersion}"
+  )
+}
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}

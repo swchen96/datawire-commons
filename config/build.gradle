@@ -1,0 +1,34 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = project.parent.group
+version = project.parent.version
+
+ext {
+  assertjVersion = '3.2.0'
+  commonsLang3 = '3.4'
+  jacksonVersion = '2.6.3'
+  junitVersion = '4.12'
+}
+
+dependencies {
+  compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+  compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
+
+  compile "org.apache.commons:commons-lang3:${commonsLang3}"
+
+  testCompile(
+      "org.assertj:assertj-core:${assertjVersion}",
+      "junit:junit:${junitVersion}"
+  )
+}
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}

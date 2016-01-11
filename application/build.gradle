@@ -1,0 +1,34 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = project.parent.group
+version = project.parent.version
+
+ext {
+  argparse4jVersion = "0.6.0"
+  assertjVersion = '3.2.0'
+  jlineVersion = '2.12'
+  junitVersion = '4.12'
+}
+
+dependencies {
+
+  compile "jline:jline:${jlineVersion}"
+  compile "net.sourceforge.argparse4j:argparse4j:${argparse4jVersion}"
+  compile project(':datawire-config')
+
+  testCompile(
+      "org.assertj:assertj-core:${assertjVersion}",
+      "junit:junit:${junitVersion}"
+  )
+}
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
