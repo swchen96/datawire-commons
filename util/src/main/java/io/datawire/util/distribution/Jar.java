@@ -1,4 +1,4 @@
-package io.datawire.util;
+package io.datawire.util.distribution;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

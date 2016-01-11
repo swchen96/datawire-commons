@@ -57,7 +57,7 @@ uploadArchives {
       }
 
       pom.project {
-        name 'hub-config'
+        name 'datawire-config'
         packaging 'jar'
         description 'Datawire Configuration Parser'
         url 'https://github.com/datawire/datawire-commons'
