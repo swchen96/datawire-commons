@@ -20,6 +20,7 @@ import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SubstitutingConfigurationSource implements ConfigurationSource {
@@ -28,8 +29,8 @@ public class SubstitutingConfigurationSource implements ConfigurationSource {
   private final StrSubstitutor substitutor;
 
   public SubstitutingConfigurationSource(ConfigurationSource delegate, StrSubstitutor substitutor) {
-    this.delegate = delegate;
-    this.substitutor = substitutor;
+    this.delegate = Objects.requireNonNull(delegate, "Delegated configuration source is null");
+    this.substitutor = Objects.requireNonNull(substitutor, "Substitutor engine is null");
   }
 
   @Override

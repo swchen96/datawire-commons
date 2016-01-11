@@ -12,6 +12,8 @@ ext {
 }
 
 dependencies {
+  compile project(':datawire-util')
+
   compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
   compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
 
@@ -31,4 +33,56 @@ task javadocJar(type: Jar) {
 task sourcesJar(type: Jar) {
   classifier = 'sources'
   from sourceSets.main.allSource
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+signing {
+  sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'hub-config'
+        packaging 'jar'
+        description 'Datawire Configuration Parser'
+        url 'https://github.com/datawire/datawire-commons'
+
+        scm {
+          connection 'scm:git:git://github.com:datawire/datawire-commons.git'
+          developerConnection 'scm:git:git://github.com:datawire/datawire-commons.git'
+          url 'https://github.com/datawire/datawire-commons'
+        }
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+
+        developers {
+          developer {
+            id 'plombardi'
+            name 'Philip Lombardi'
+            email 'plombardi@datawire.io'
+          }
+        }
+      }
+    }
+  }
 }

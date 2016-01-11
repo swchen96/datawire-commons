@@ -16,36 +16,34 @@
 
 package io.datawire.configuration;
 
-import java.io.*;
-import java.nio.file.Path;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
-public class FileConfigurationSource implements ConfigurationSource {
+public class StringConfigurationSource implements ConfigurationSource {
 
-  private final File file;
+  private final String data;
+  private final Charset charset;
 
-  public FileConfigurationSource(File file) {
-    if (file == null) {
-      throw new IllegalArgumentException("File is null");
-    }
-
-    this.file = file;
+  public StringConfigurationSource(String data) {
+    this(data, StandardCharsets.UTF_8);
   }
 
-  public FileConfigurationSource(Path path) {
-    this(path.toFile());
+  public StringConfigurationSource(String data, Charset charset) {
+    this.data = Objects.requireNonNull(data, "Input data source is null");
+    this.charset = Objects.requireNonNull(charset, "Input data charset is null");
   }
 
   @Override
   public String getLocation() {
-    return file.getPath();
+    return "<string in memory>";
   }
 
   @Override
   public InputStream open() throws IOException {
-    if (!file.exists()) {
-      throw new FileNotFoundException(String.format("File does not exist (path: %s)", file.getPath()));
-    }
-
-    return new FileInputStream(file);
+    return new ByteArrayInputStream(data.getBytes(charset));
   }
 }

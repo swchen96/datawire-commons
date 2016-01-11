@@ -29,7 +29,9 @@ import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.YAMLException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import static io.datawire.configuration.ConfigurationParsingException.*;
 
@@ -83,6 +85,8 @@ public class ConfigurationFactory<T> {
   }
 
   public T build(ConfigurationSource source) throws ConfigurationException, IOException {
+    Objects.requireNonNull(source, "Configuration source is null");
+
     try (InputStream input = source.open()) {
       final JsonNode root = mapper.readTree(yamlFactory.createParser(input));
 
@@ -110,6 +114,10 @@ public class ConfigurationFactory<T> {
 
   public T build(Path file) throws ConfigurationException, IOException {
     return build(new FileConfigurationSource(file));
+  }
+
+  public T build(String data, Charset charset) throws ConfigurationException, IOException {
+    return build(new StringConfigurationSource(data, charset));
   }
 
   public static <T> ConfigurationFactory<T> getInstance(Class<T> clazz) {

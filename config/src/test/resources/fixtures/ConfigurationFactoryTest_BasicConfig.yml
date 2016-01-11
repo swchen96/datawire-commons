@@ -1,0 +1,11 @@
+---
+foo: foobar
+baz: bazbot
+widget:
+  name: widget0
+  age: 3
+  active: true
+  subWidget:
+    name: widget1
+    age: 3
+    active: false
