@@ -24,12 +24,12 @@ public abstract class ConfiguredCommand<A extends ApplicationConfiguration> exte
     subparser.addArgument("config_url").nargs("?").help("configuration url");
   }
 
-  public abstract void run(Initializer<A ,?> initializer, A configuration, Namespace namespace) throws Exception;
+  public abstract void run(Initializer<A> initializer, A configuration, Namespace namespace) throws Exception;
 
   @SuppressWarnings("unchecked")
-  @Override public void run(Initializer<?, ?> initializer, Namespace namespace) throws Exception {
+  @Override public void run(Initializer<?> initializer, Namespace namespace) throws Exception {
     ConfigurationFactory<A> factory = (ConfigurationFactory<A>) initializer.buildConfigurationFactory();
     A config = factory.build(new File(namespace.getString("config_url")));
-    run((Initializer<A, ?>) initializer, config, namespace);
+    run((Initializer<A>) initializer, config, namespace);
   }
 }

@@ -1,20 +1,12 @@
 package io.datawire.app;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.datawire.app.jackson.JacksonFactory;
 
-public class DefaultInitializerFactory<A extends ApplicationConfiguration, B extends ApplicationEnvironment>
-    implements InitializerFactory<A, B> {
+public class DefaultInitializerFactory<A extends ApplicationConfiguration> implements InitializerFactory<A> {
 
-  @Override public Initializer<A, B> create(Application<A, B> application) {
-    return new Initializer<>(application, buildEnvironmentFactory(), buildObjectMapper());
-  }
-
-  public ObjectMapper buildObjectMapper() {
-    return new ObjectMapper();
-  }
-
-  public ApplicationEnvironmentFactory<A, B> buildEnvironmentFactory() {
-    return new DefaultEnvironmentFactory<>();
+  @Override
+  public Initializer<A> create(Application<A> application) {
+    return new Initializer<>(application, JacksonFactory.INSTANCE.getObjectMapper());
   }
 }

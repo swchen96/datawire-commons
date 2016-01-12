@@ -24,5 +24,5 @@ public abstract class Command {
   }
 
   public abstract void configure(Subparser subparser);
-  public abstract void run(Initializer<?, ?> initializer, Namespace namespace) throws Exception;
+  public abstract void run(Initializer<?> initializer, Namespace namespace) throws Exception;
 }

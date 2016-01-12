@@ -27,7 +27,7 @@ public class CliRunner implements Runner {
   private final PrintWriter standardOut;
   private final PrintWriter standardError;
 
-  public CliRunner(Initializer<?, ?> initializer, OutputStream standardOut, OutputStream standardError) {
+  public CliRunner(Initializer<?> initializer, OutputStream standardOut, OutputStream standardError) {
     this.parser = buildParser();
     this.initializer = requireNonNull(initializer, "Bootstrap is null");
     this.commands = configureCommands(initializer);
@@ -71,7 +71,7 @@ public class CliRunner implements Runner {
     return !intersection.isEmpty();
   }
 
-  private Map<String, Command> configureCommands(Initializer<?, ?> initializer) {
+  private Map<String, Command> configureCommands(Initializer<?> initializer) {
     final Map<String, Command> result = new TreeMap<>();
     for (Command command : initializer.getCommands()) {
       result.put(command.getName(), command);

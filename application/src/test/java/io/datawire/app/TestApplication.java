@@ -1,9 +1,8 @@
 package io.datawire.app;
 
 
-public class TestApplication extends Application<TestApplicationConfiguration, TestApplicationEnvironment> {
-
+public class TestApplication extends Application<TestApplicationConfiguration> {
   TestApplication() {
-    super("test", TestApplicationConfiguration.class, TestApplicationEnvironment.class);
+    super("test-application", TestApplicationConfiguration.class);
   }
 }

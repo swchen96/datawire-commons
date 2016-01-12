@@ -1,21 +1,19 @@
 package io.datawire.app;
 
 
-import java.util.Collections;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Map;
 import java.util.Objects;
 
-public class ApplicationEnvironment {
+public class Context {
 
   private final Map<String, String> variables;
+  private final ObjectMapper objectMapper;
 
-  public ApplicationEnvironment() {
-    this(System.getenv());
-  }
-
-  public ApplicationEnvironment(Map<String, String> variables) {
-    Objects.requireNonNull(variables, "Environment variables map is null");
-    this.variables = Collections.unmodifiableMap(variables);
+  public Context(ObjectMapper mapper, Map<String, String> variables) {
+    this.objectMapper = Objects.requireNonNull(mapper, "Object mapper is null");
+    this.variables = Objects.requireNonNull(variables, "Environment variables map is null");
   }
 
   public String getProperty(String name) {
@@ -36,5 +34,9 @@ public class ApplicationEnvironment {
 
   public Map<String, String> getVariables() {
     return variables;
+  }
+
+  public ObjectMapper getObjectMapper() {
+    return objectMapper;
   }
 }

@@ -9,21 +9,20 @@ import java.util.*;
 
 import static java.util.Objects.*;
 
-public class Initializer<A extends ApplicationConfiguration, B extends ApplicationEnvironment> {
+public class Initializer<A extends ApplicationConfiguration> {
 
-  private final Application<A, B> application;
-  private final ApplicationEnvironmentFactory<A, B> environmentFactory;
-  private final ObjectMapper mapper;
+  private final Application<A> application;
+  private final ObjectMapper objectMapper;
 
   private List<Command> commands = new LinkedList<>();
 
-  Initializer(Application<A, B> application,
-              ApplicationEnvironmentFactory<A, B> environmentFactory,
-              ObjectMapper mapper) {
-
+  Initializer(Application<A> application, ObjectMapper objectMapper) {
     this.application = requireNonNull(application, "Application is null");
-    this.environmentFactory = requireNonNull(environmentFactory, "Application environment factory is null");
-    this.mapper = requireNonNull(mapper, "JSON/YAML object mapper is null").copy();
+    this.objectMapper = requireNonNull(objectMapper, "JSON/YAML object objectMapper is null");
+  }
+
+  public ObjectMapper getObjectMapper() {
+    return objectMapper;
   }
 
   public final Iterable<Command> getCommands() {
@@ -41,10 +40,6 @@ public class Initializer<A extends ApplicationConfiguration, B extends Applicati
   }
 
   public ConfigurationFactory<A> buildConfigurationFactory() {
-    return new ConfigurationFactory<>(application.getConfigurationClass(), mapper);
-  }
-
-  public B buildEnvironment(A configuration) {
-    return environmentFactory.build(configuration);
+    return new ConfigurationFactory<>(application.getConfigurationClass(), objectMapper);
   }
 }
